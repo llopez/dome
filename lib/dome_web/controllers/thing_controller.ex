@@ -29,6 +29,7 @@ defmodule DomeWeb.ThingController do
     thing = IOT.get_thing!(id)
 
     with {:ok, %Thing{} = thing} <- IOT.update_thing(thing, thing_params) do
+      Tortoise.publish("dome", "dev/#{thing.chipid}", thing.state)
       render(conn, "show.json", thing: thing)
     end
   end

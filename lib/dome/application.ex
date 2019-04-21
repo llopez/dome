@@ -11,9 +11,10 @@ defmodule Dome.Application do
       # Start the Ecto repository
       Dome.Repo,
       # Start the endpoint when the application starts
-      DomeWeb.Endpoint
+      DomeWeb.Endpoint,
       # Starts a worker by calling: Dome.Worker.start_link(arg)
       # {Dome.Worker, arg},
+      {Tortoise.Connection, client_id: "dome", handler: {Dome.ThingHandler, []}, server: {Tortoise.Transport.Tcp, host: "192.168.0.13", port: 1883}}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

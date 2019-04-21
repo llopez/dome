@@ -14,6 +14,7 @@ defmodule DomeWeb.ThingView do
     %{id: thing.id,
       name: thing.name,
       type: thing.type,
-      state: thing.state}
+      state: thing.state,
+      chipid: thing.chipid}
   end
 end

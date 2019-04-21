@@ -6,6 +6,7 @@ defmodule Dome.IOT.Thing do
     field :name, :string
     field :state, :string
     field :type, :string
+    field :chipid, :string
 
     timestamps()
   end
@@ -13,7 +14,7 @@ defmodule Dome.IOT.Thing do
   @doc false
   def changeset(thing, attrs) do
     thing
-    |> cast(attrs, [:name, :type, :state])
-    |> validate_required([:name, :type, :state])
+    |> cast(attrs, [:name, :type, :state, :chipid])
+    |> validate_required([:name, :type, :state, :chipid])
   end
 end
