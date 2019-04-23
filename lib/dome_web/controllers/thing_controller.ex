@@ -13,6 +13,8 @@ defmodule DomeWeb.ThingController do
 
   def create(conn, %{"thing" => thing_params}) do
     with {:ok, %Thing{} = thing} <- IOT.create_thing(thing_params) do
+      Tortoise.Connection.subscribe("dome", {"server/#{thing.chipid}", 0})
+
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.thing_path(conn, :show, thing))

@@ -14,13 +14,18 @@ defmodule Dome.Application do
       DomeWeb.Endpoint,
       # Starts a worker by calling: Dome.Worker.start_link(arg)
       # {Dome.Worker, arg},
-      {Tortoise.Connection, client_id: "dome", handler: {Dome.ThingHandler, []}, server: {Tortoise.Transport.Tcp, host: "192.168.0.13", port: 1883}}
+      {Tortoise.Connection, client_id: "dome", handler: {Dome.IOT.ThingHandler, []}, server: {Tortoise.Transport.Tcp, host: "192.168.0.13", port: 1883}}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Dome.Supervisor]
-    Supervisor.start_link(children, opts)
+    supervisor = Supervisor.start_link(children, opts)
+
+    Dome.IOT.list_things
+      |> Enum.each(fn x -> Tortoise.Connection.subscribe("dome", {"server/#{x.chipid}", 0}) end)
+
+    supervisor
   end
 
   # Tell Phoenix to update the endpoint configuration

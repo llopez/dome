@@ -13,8 +13,11 @@ defmodule Dome.IOT.ThingHandler do
     {:ok, state}
   end
 
-  def handle_message(["server", name, "state"], payload, state) do
-    IO.puts payload
+  def handle_message(["server", chipid], payload, state) do
+    thing = Dome.IOT.get_thing_by_chipid!(chipid)
+
+    Dome.IOT.update_thing(thing, %{state: payload})
+
     {:ok, state}
   end
 

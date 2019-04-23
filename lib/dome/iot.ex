@@ -38,6 +38,22 @@ defmodule Dome.IOT do
   def get_thing!(id), do: Repo.get!(Thing, id)
 
   @doc """
+  Gets a single thing by chipid.
+
+  Raises `Ecto.NoResultsError` if the Thing does not exist.
+
+  ## Examples
+
+      iex> get_thing_by_chipid!(1234)
+      %Thing{}
+
+      iex> get_thing_by_chipid!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_thing_by_chipid!(chipid), do: Repo.get_by!(Thing, chipid: chipid)
+
+  @doc """
   Creates a thing.
 
   ## Examples
