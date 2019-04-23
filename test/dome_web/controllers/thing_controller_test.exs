@@ -5,16 +5,18 @@ defmodule DomeWeb.ThingControllerTest do
   alias Dome.IOT.Thing
 
   @create_attrs %{
-    name: "some name",
-    state: "some state",
-    type: "some type"
+    name: "light",
+    state: "off",
+    type: "switch",
+    chipid: "1234"
   }
   @update_attrs %{
-    name: "some updated name",
-    state: "some updated state",
-    type: "some updated type"
+    name: "light updated",
+    state: "on",
+    type: "sensor",
+    chipid: "1234"
   }
-  @invalid_attrs %{name: nil, state: nil, type: nil}
+  @invalid_attrs %{name: nil, state: nil, type: nil, chipid: nil}
 
   def fixture(:thing) do
     {:ok, thing} = IOT.create_thing(@create_attrs)
@@ -41,9 +43,10 @@ defmodule DomeWeb.ThingControllerTest do
 
       assert %{
                "id" => id,
-               "name" => "some name",
-               "state" => "some state",
-               "type" => "some type"
+               "name" => "light",
+               "state" => "off",
+               "type" => "switch",
+               "chipid" => "1234"
              } = json_response(conn, 200)["data"]
     end
 
@@ -64,9 +67,10 @@ defmodule DomeWeb.ThingControllerTest do
 
       assert %{
                "id" => id,
-               "name" => "some updated name",
-               "state" => "some updated state",
-               "type" => "some updated type"
+               "name" => "light updated",
+               "state" => "on",
+               "type" => "sensor",
+               "chipid" => "1234"
              } = json_response(conn, 200)["data"]
     end
 

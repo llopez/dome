@@ -6,9 +6,9 @@ defmodule Dome.IOTTest do
   describe "things" do
     alias Dome.IOT.Thing
 
-    @valid_attrs %{name: "some name", state: "some state", type: "some type"}
-    @update_attrs %{name: "some updated name", state: "some updated state", type: "some updated type"}
-    @invalid_attrs %{name: nil, state: nil, type: nil}
+    @valid_attrs %{name: "light", state: "on", type: "switch", chipid: "1234"}
+    @update_attrs %{name: "light updated", state: "off", type: "sensor"}
+    @invalid_attrs %{name: nil, state: nil, type: nil, chipid: nil}
 
     def thing_fixture(attrs \\ %{}) do
       {:ok, thing} =
@@ -31,9 +31,9 @@ defmodule Dome.IOTTest do
 
     test "create_thing/1 with valid data creates a thing" do
       assert {:ok, %Thing{} = thing} = IOT.create_thing(@valid_attrs)
-      assert thing.name == "some name"
-      assert thing.state == "some state"
-      assert thing.type == "some type"
+      assert thing.name == "light"
+      assert thing.state == "on"
+      assert thing.type == "switch"
     end
 
     test "create_thing/1 with invalid data returns error changeset" do
@@ -43,9 +43,9 @@ defmodule Dome.IOTTest do
     test "update_thing/2 with valid data updates the thing" do
       thing = thing_fixture()
       assert {:ok, %Thing{} = thing} = IOT.update_thing(thing, @update_attrs)
-      assert thing.name == "some updated name"
-      assert thing.state == "some updated state"
-      assert thing.type == "some updated type"
+      assert thing.name == "light updated"
+      assert thing.state == "off"
+      assert thing.type == "sensor"
     end
 
     test "update_thing/2 with invalid data returns error changeset" do
