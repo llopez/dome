@@ -21,8 +21,9 @@ defmodule DomeWeb.RoomChannel do
   def handle_in("update:item", %{"id" => id} = attrs, socket) do
     thing = Dome.IOT.get_thing!(id)
 
-    with {:ok, %Dome.IOT.Thing{}} <- Dome.IOT.update_thing(thing, attrs) do
+    with {:ok, %Dome.IOT.Thing{}}, {:ok, thing} <- Dome.IOT.update_thing(thing, attrs) do
       broadcast!(socket, "ITEM_UPDATED", attrs)
+      Tortoise.publish("dome", "dev/#{thing.chipid}", thing.state)
     end
 
     {:noreply, socket}
