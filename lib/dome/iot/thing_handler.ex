@@ -16,7 +16,11 @@ defmodule Dome.IOT.ThingHandler do
   def handle_message(["server", chipid], payload, state) do
     thing = Dome.IOT.get_thing_by_chipid!(chipid)
 
-    Dome.IOT.update_thing(thing, %{state: payload})
+    {:ok, thing} = Dome.IOT.update_thing(thing, %{state: payload})
+
+    response = DomeWeb.ThingView.render("show.json", %{thing: thing})
+
+    DomeWeb.Endpoint.broadcast("room:lobby", "ITEM_UPDATED", response.data)
 
     {:ok, state}
   end
