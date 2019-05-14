@@ -11,10 +11,19 @@ defmodule DomeWeb.ThingView do
   end
 
   def render("thing.json", %{thing: thing}) do
+
+    {state, _} = case thing.type do
+      "dimm" -> Integer.parse(thing.state)
+      "temp" -> Integer.parse(thing.state)
+      "hum" -> Integer.parse(thing.state)
+
+      _ -> {thing.state, nil}
+    end
+
     %{id: thing.id,
       name: thing.name,
       type: thing.type,
-      state: thing.state,
+      state: state,
       chipid: thing.chipid}
   end
 end
